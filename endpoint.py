@@ -12,11 +12,10 @@ from nacl.encoding import HexEncoder, Base64Encoder
 """
 Setup 
 """
-parser = etree.XMLParser(remove_blank_text=True)
 schema_xml: etree.Element = None
 xml_schema: etree.XMLSchema = None
 try:
-    schema_xml = etree.parse("schema.xsd", parser)
+    schema_xml = etree.parse("schema.xsd")
 except FileNotFoundError as err:
     print("ERROR - XSD Schema file not found - Exiting")
     sys.exit(1)
@@ -48,7 +47,7 @@ def encrypt_xml():
         return jsonify({"message": "Body empty"}), 400
 
     try:
-        payload_xml: etree.Element = etree.parse(StringIO(payload), parser)
+        payload_xml: etree.Element = etree.parse(StringIO(payload))
     except etree.ParseError as xmlerror:
         return jsonify({"message": str(xmlerror)}), 400
 
