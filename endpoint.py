@@ -16,13 +16,13 @@ schema_xml: etree.Element = None
 xml_schema: etree.XMLSchema = None
 try:
     schema_xml = etree.parse("schema.xsd")
-except FileNotFoundError as err:
+except FileNotFoundError as err:  # Fatal
     print("ERROR - XSD Schema file not found - Exiting")
     sys.exit(1)
 
 try:
     xml_schema = etree.XMLSchema(schema_xml)
-except etree.XMLSchemaError as err:
+except etree.XMLSchemaError as err:  # Fatal
     print(f"ERROR - XSD Schema error - Exiting: {err}")
     sys.exit(1)
 
@@ -44,21 +44,22 @@ def encrypt_xml():
     payload: str = str(request.data.decode())
 
     if len(payload) == 0:
-        return jsonify({"message": "Body empty"}), 400
+        return jsonify({"status": 400, "message": "Body empty"}), 400
 
     try:
         payload_xml: etree.Element = etree.parse(StringIO(payload))
     except etree.ParseError as xmlerror:
-        return jsonify({"message": str(xmlerror)}), 400
+        return jsonify({"status": 400, "message": str(xmlerror)}), 400
 
     try:
         xml_schema.assertValid(payload_xml)
     except etree.DocumentInvalid as xmlerror:
-        return jsonify({"message": str(xmlerror)}), 400
+        return jsonify({"status": 400, "message": str(xmlerror)}), 400
 
     payload_encrypted: str = encrypt_payload(str.encode(payload)).decode()
 
     response: dict = {
+        "status": 200,
         "message": "OK",
         "payload_encrypted": payload_encrypted,
     }
