@@ -30,7 +30,7 @@ except etree.XMLSchemaError as err:  # Fatal
 api = Flask(__name__)
 
 # Public Key provided by DKFZ
-PUBLIC_KEY_HEX: bytes = b"fac5bac92c40adb0abe85b1159a03856bd9641c7e3bc65f29e011e42681d5e24"  # @TODO REPLACE TEST KEY!!!
+PUBLIC_KEY_HEX: bytes = b"e8553d8c6ffcf5d6418b215bd6f7286105d44ed537eacad7c80680650ef8540d"  # @TODO Replace DEV key
 PUBLIC_KEY: PublicKey = PublicKey(PUBLIC_KEY_HEX, HexEncoder)
 sealed_box: SealedBox = SealedBox(PUBLIC_KEY)
 
