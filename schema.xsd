@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="patient">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="vorname"/>
+        <xs:element ref="nachname"/>
+        <xs:element ref="geburtstag"/>
+        <xs:element ref="geburtsmonat"/>
+        <xs:element ref="geburtsjahr"/>
+        <xs:element ref="versicherungsnummer"/>
+        <xs:element ref="adresse.plz"/>
+        <xs:element ref="adresse.stadt"/>
+        <xs:element ref="adresse.strasse"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vorname">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="nachname">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="geburtstag">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:pattern value="[0-3][0-9]"/>
+        <xs:maxInclusive value="31"/>
+        <xs:minInclusive value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="geburtsmonat">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="1"/>
+        <xs:maxInclusive value="12"/>
+        <xs:pattern value="[0-1][0-9]"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="geburtsjahr">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="1900"/>
+        <xs:maxInclusive value="2023"/>
+        <xs:pattern value="[1-2][0-9][0-9][0-9]"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="versicherungsnummer">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="9"/>
+        <xs:maxLength value="10"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="adresse.plz">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:length value="5"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="adresse.stadt">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="adresse.strasse">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+</xs:schema>

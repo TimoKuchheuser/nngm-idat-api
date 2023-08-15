@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="enabledOnReformat" value="true" />
+    <option name="sdkUUID" value="ab5244d5-de28-45de-8cc0-c18b4aedfa44" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (nngm-idat-api)" project-jdk-type="Python SDK" />
+</project>
