@@ -9,15 +9,20 @@
   - Select Create
   - Enter name (e.g. "nngm")
   - Select Python 3.11.x
-- Install additional packages into created environment
-  - git
 
 ## Setup Environment (one time)
 - Start environment by clicking Play -> Open Terminal
+- Install git with "conda install git"
+
+
 - Create new directory with "md nngm"
 - Change into directory with "cd nngm"
+
+
 - Checkout repository with 
   - git clone https://github.com/TimoKuchheuser/nngm-idat-api.git
+
+
 - Install pip with "conda install pip"
 - Install dependencies with "pip install -r requirements.txt"
  

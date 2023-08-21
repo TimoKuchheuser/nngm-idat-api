@@ -51,7 +51,7 @@
     <xs:simpleType>
       <xs:restriction base="xs:integer">
         <xs:minInclusive value="1900"/>
-        <xs:maxInclusive value="2023"/>
+        <xs:maxInclusive value="2045"/>
         <xs:pattern value="[1-2][0-9][0-9][0-9]"/>
       </xs:restriction>
     </xs:simpleType>
@@ -59,30 +59,24 @@
   <xs:element name="versicherungsnummer">
     <xs:simpleType>
       <xs:restriction base="xs:string">
-        <xs:minLength value="9"/>
-        <xs:maxLength value="10"/>
+        <xs:minLength value="1"/>
+        <xs:maxLength value="32"/>
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
   <xs:element name="adresse.plz">
     <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:length value="5"/>
-      </xs:restriction>
+      <xs:restriction base="xs:string"> </xs:restriction>
     </xs:simpleType>
   </xs:element>
   <xs:element name="adresse.stadt">
     <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:minLength value="1"/>
-      </xs:restriction>
+      <xs:restriction base="xs:string"> </xs:restriction>
     </xs:simpleType>
   </xs:element>
   <xs:element name="adresse.strasse">
     <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:minLength value="1"/>
-      </xs:restriction>
+      <xs:restriction base="xs:string"> </xs:restriction>
     </xs:simpleType>
   </xs:element>
 </xs:schema>
