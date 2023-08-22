@@ -1,13 +1,21 @@
 # Standard
 import sys
 from io import StringIO
+import logging
 
 # Third party
 from flask import Flask, request, jsonify
 from lxml import etree
-
-from nacl.public import PublicKey, SealedBox
 from nacl.encoding import HexEncoder, Base64Encoder
+from nacl.public import PublicKey, SealedBox
+
+# Logging setup
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+)
+
+log: logging.Logger = logging.getLogger("nNGM Endpoint")
+
 
 """
 As the system will be used with pyinstaller, having the xsd as a string in the
@@ -106,11 +114,12 @@ Setup
 xml_schema: etree.XMLSchema = None
 
 try:
-    xml_schema = etree.fromstring(xsd_schema)
+    xml_schema = etree.XMLSchema(etree.fromstring(xsd_schema))
 except etree.XMLSchemaError as err:  # Fatal
-    print(f"ERROR - XSD Schema error - Exiting: {err}")
+    log.critical(f"XSD Schema error - Exiting: {err}")
     sys.exit(1)
 
+log.info("XSD Schema loaded")
 
 api = Flask(__name__)
 
@@ -119,6 +128,8 @@ PUBLIC_KEY_HEX: bytes = b"e8553d8c6ffcf5d6418b215bd6f7286105d44ed537eacad7c80680
 PUBLIC_KEY: PublicKey = PublicKey(PUBLIC_KEY_HEX, HexEncoder)
 sealed_box: SealedBox = SealedBox(PUBLIC_KEY)
 
+log.info(f"Public key: {PUBLIC_KEY_HEX}")
+
 
 def encrypt_payload(payload: bytes, box: SealedBox = sealed_box) -> bytes:
     return box.encrypt(payload, Base64Encoder)
@@ -126,19 +137,23 @@ def encrypt_payload(payload: bytes, box: SealedBox = sealed_box) -> bytes:
 
 @api.route("/encrypt/xml", methods=["POST"])
 def encrypt_xml():
+    log.info(f"Received POST request from: {request.remote_addr}")
     payload: str = str(request.data.decode())
 
     if len(payload) == 0:
+        log.debug("encrypt_xml(): Received empty payload. Returning 400.")
         return jsonify({"status": 400, "message": "Body empty"}), 400
 
     try:
         payload_xml: etree.Element = etree.parse(StringIO(payload))
     except etree.ParseError as xmlerror:
+        log.debug("encrypt_xml(): Received corrupt XML payload. Returning 400.")
         return jsonify({"status": 400, "message": str(xmlerror)}), 400
 
     try:
         xml_schema.assertValid(payload_xml)
     except etree.DocumentInvalid as xmlerror:
+        log.debug("encrypt_xml(): Received invalid XML payload. Returning 400.")
         return jsonify({"status": 400, "message": str(xmlerror)}), 400
 
     payload_encrypted: str = encrypt_payload(str.encode(payload)).decode()
