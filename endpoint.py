@@ -24,6 +24,7 @@ file makes life easier.
 - The start of the string CAN NOT have any whitespace
 - The string MUST be passed as bytes
 """
+VERSION_XSD: str = "20230821/01"
 xsd_schema: bytes = b"""<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
   <xs:element name="patient">
@@ -128,7 +129,9 @@ PUBLIC_KEY_HEX: bytes = b"e8553d8c6ffcf5d6418b215bd6f7286105d44ed537eacad7c80680
 PUBLIC_KEY: PublicKey = PublicKey(PUBLIC_KEY_HEX, HexEncoder)
 sealed_box: SealedBox = SealedBox(PUBLIC_KEY)
 
-log.info(f"Public key: {PUBLIC_KEY_HEX}")
+VERSION_PRE: str = "TEST"
+VERSION: str = f"{VERSION_PRE}:{VERSION_XSD}:{PUBLIC_KEY_HEX}"
+log.info(f"Version: {VERSION}")
 
 
 def encrypt_payload(payload: bytes, box: SealedBox = sealed_box) -> bytes:
